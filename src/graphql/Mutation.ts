@@ -1,0 +1,46 @@
+import { GraphQLID, GraphQLObjectType, GraphQLString } from 'graphql';
+import SongType from './types/SongType';
+import LyricType from './types/LyricType';
+import SongModel from '../mongoose/models/SongModel';
+import LyricModel from '../mongoose/models/LyricModel';
+
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addSong: {
+      type: SongType,
+      args: {
+        title: { type: GraphQLString }
+      },
+      resolve(parentValue, { title }) {
+        return new SongModel({ title }).save();
+      }
+    },
+    addLyricToSong: {
+      type: SongType,
+      args: {
+        content: { type: GraphQLString },
+        songId: { type: GraphQLID }
+      },
+      resolve(parentValue, { content, songId }) {
+        return SongModel.addLyric(songId, content);
+      }
+    },
+    likeLyric: {
+      type: LyricType,
+      args: { id: { type: GraphQLID } },
+      resolve(parentValue, { id }) {
+        return LyricModel.like(id);
+      }
+    },
+    deleteSong: {
+      type: SongType,
+      args: { id: { type: GraphQLID } },
+      resolve(parentValue, { id }) {
+        return SongModel.findByIdAndRemove(id);
+      }
+    }
+  }
+});
+
+export default Mutation;

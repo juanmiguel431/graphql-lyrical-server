@@ -1,7 +1,8 @@
-import 'dotenv/config'
+import 'dotenv/config';
+import './mongoose/connect';
 import express from "express";
 import { createHandler } from 'graphql-http/lib/use/express';
-import schema from './schema';
+import schema from './graphql/schema';
 
 const app = express();
 app.all('/graphql', createHandler({ schema }));
