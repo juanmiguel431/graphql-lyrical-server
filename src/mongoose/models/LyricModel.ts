@@ -12,7 +12,7 @@ type LyricModelType = Model<Lyric, {}, InstanceMethods> & StaticMethods;
 const LyricSchema = new Schema<Lyric, LyricModelType>({
   song: {
     type: Schema.Types.ObjectId,
-    ref: 'song'
+    ref: DbSchema.Song
   },
   likes: { type: Number, default: 0 },
   content: { type: String }

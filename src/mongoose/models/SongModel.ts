@@ -14,11 +14,11 @@ const SongSchema = new Schema<Song, SongModelType>({
   title: { type: String },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: DbSchema.User
   },
   lyrics: [{
     type: Schema.Types.ObjectId,
-    ref: 'lyric'
+    ref: DbSchema.Lyric
   }]
 });
 
