@@ -1,4 +1,4 @@
-import { GraphQLID, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLID, GraphQLObjectType, GraphQLString, GraphQLNonNull } from 'graphql';
 import SongType from './types/SongType';
 import LyricType from './types/LyricType';
 import SongModel from '../mongoose/models/SongModel';
@@ -10,7 +10,7 @@ const Mutation = new GraphQLObjectType({
     addSong: {
       type: SongType,
       args: {
-        title: { type: GraphQLString }
+        title: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parentValue, { title }) {
         return new SongModel({ title }).save();
@@ -19,8 +19,8 @@ const Mutation = new GraphQLObjectType({
     addLyricToSong: {
       type: SongType,
       args: {
-        content: { type: GraphQLString },
-        songId: { type: GraphQLID }
+        content: { type: new GraphQLNonNull(GraphQLString) },
+        songId: { type: new GraphQLNonNull(GraphQLID) }
       },
       resolve(parentValue, { content, songId }) {
         return SongModel.addLyric(songId, content);
@@ -28,14 +28,14 @@ const Mutation = new GraphQLObjectType({
     },
     likeLyric: {
       type: LyricType,
-      args: { id: { type: GraphQLID } },
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve(parentValue, { id }) {
         return LyricModel.like(id);
       }
     },
     deleteSong: {
       type: SongType,
-      args: { id: { type: GraphQLID } },
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve(parentValue, { id }) {
         return SongModel.findByIdAndRemove(id);
       }
