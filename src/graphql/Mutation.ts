@@ -37,7 +37,9 @@ const Mutation = new GraphQLObjectType({
       type: SongType,
       args: { id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve: (parentValue, { id }) => {
-        return SongModel.deleteOne({ _id: id });
+        // return SongModel.deleteOne({ _id: id });
+        //https://mongoosejs.com/docs/api/model.html
+        return SongModel.findByIdAndDelete(id);
       }
     }
   }
